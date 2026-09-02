@@ -1,0 +1,105 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Pallene.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:iconPacks="http://github.com/MahApps/IconPacks.Avalonia"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:input="using:Avalonia.Input"
+        xmlns:svg="using:Svg.Controls.Skia.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="700"
+        Width="1150" Height="750"
+        MinWidth="800" MinHeight="550"
+        x:Class="Pallene.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/Group.png"
+        Title="Pallene"
+        WindowStartupLocation="CenterScreen"
+        Background="#0A2755"
+        Padding="24 0 24 24"
+        CanMaximize="True"
+        ExtendClientAreaToDecorationsHint="True"
+        Foreground="White"
+        WindowDecorations="BorderOnly"
+        ExtendClientAreaTitleBarHeightHint="32"
+        >
+    <Window.Styles>
+		<Style Selector="TextBlock">
+			<Setter Property="FontFamily" Value="{StaticResource FunnelSans}"/>
+        </Style>
+    </Window.Styles>
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <DockPanel LastChildFill="True" VerticalSpacing="24">
+        <Border DockPanel.Dock="Top" Background="#101030"  Height="32" BorderThickness="0 0 0 1" BorderBrush="#1070b0" Margin="-24 0 -24 0" CornerRadius="0" WindowDecorationProperties.ElementRole="TitleBar">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" Spacing="2" DockPanel.Dock="Right">
+                <Button Content="&#xE921;" WindowDecorationProperties.ElementRole="MinimizeButton" Padding="18 0" CornerRadius="0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" BorderThickness="0" Background="Transparent" FontSize="11" FontFamily="{StaticResource PlneNav}"/>
+		        <Button Content="&#xE922;" WindowDecorationProperties.ElementRole="MaximizeButton" Padding="18 0" CornerRadius="0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" BorderThickness="0" Background="Transparent" FontSize="11" FontFamily="{StaticResource PlneNav}"/>
+                <Button Content="&#xE8BB;" WindowDecorationProperties.ElementRole="CloseButton" Padding="18 0" CornerRadius="0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" BorderThickness="0" Background="Transparent" FontSize="11"  FontFamily="{StaticResource PlneNav}"/>
+                </StackPanel>
+                <TextBlock Padding="12 0 0 0" VerticalAlignment="Center" FontSize="13">Select Project</TextBlock>
+            </DockPanel>
+
+        </Border>
+        <DockPanel DockPanel.Dock="Top">
+            <Svg Path="/Assets/pallene_text_white.svg" DockPanel.Dock="Left" Margin="0" Width="190" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        </DockPanel>
+        <Grid ColumnDefinitions="*,215" ColumnSpacing="16">
+            
+			<Border Background="#101030" CornerRadius="6" BorderBrush="#1070b0" BorderThickness="1" Padding="16">
+				<TextBlock FontSize="14" HorizontalAlignment="Center" TextAlignment="Center" FontWeight="SemiLight" Foreground="#ddd">
+					Your recent projects will appear here.
+                    <LineBreak/>
+                    Once we implement the functionality, that is.
+                </TextBlock>
+            </Border>
+
+            <DockPanel Grid.Column="2" Margin="0" LastChildFill="True">
+                <StackPanel DockPanel.Dock="Bottom">
+                    <TextBlock FontSize="12" Padding="5 0 0 5" Foreground="SlateGray">
+						Version InfDev-1 [git 000001]<LineBreak />
+                        <PathIcon Data="{StaticResource Copyleft}" Width="9" Height="9"/> Pallene Contributors, 2026
+                    </TextBlock>
+                    <Button HorizontalAlignment="Stretch" CornerRadius="5" Background="Transparent" Padding="5 8">
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <PathIcon Data="{StaticResource InfoCircle}" Width="18" Height="18"/>
+                            <TextBlock Text="About" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button HorizontalAlignment="Stretch" CornerRadius="5" Background="Transparent" Padding="5 8">
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <PathIcon Data="{StaticResource Cog}" Width="18" Height="18"/>
+                            <TextBlock Text="Settings" VerticalAlignment="Center" />
+                        </StackPanel>   
+                    </Button>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Top">
+				    <Button HorizontalAlignment="Stretch" CornerRadius="5" Background="Transparent" Padding="5 8">
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <PathIcon Data="{StaticResource File}" Width="18" Height="18"/>
+                            <TextBlock Text="New Project" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button HorizontalAlignment="Stretch" CornerRadius="5" Background="Transparent" Padding="5 8">
+                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <PathIcon Data="{StaticResource FolderTwo}" Width="18" Height="18"/>
+                            <TextBlock Text="Open Project" VerticalAlignment="Center" />
+                        </StackPanel>   
+                    </Button>
+
+                </StackPanel>
+
+
+            </DockPanel>
+
+
+        </Grid>
+    </DockPanel>
+</Window>
