@@ -1,4 +1,6 @@
-﻿namespace Pallene.SDK.MMC
+﻿using System.Reflection.Emit;
+
+namespace Pallene.SDK.MMC
 {
     public struct CommandDescriptorBlock
     {
@@ -10,6 +12,14 @@
                 throw new ArgumentOutOfRangeException(nameof(length), "Command Descriptor Block length must only be one of the following: 6, 10, 12, 16.");
             bytes = new byte[length];
             bytes[0] = opCode;
+        }
+
+        public CommandDescriptorBlock(byte[] buffer)
+        {
+            int length = buffer.Length;
+            if (length != 6 && length != 10 && length != 12 && length != 16)
+                throw new ArgumentOutOfRangeException(nameof(length), "Command Descriptor Block length must only be one of the following: 6, 10, 12, 16.");
+            bytes = buffer;
         }
 
         public byte this[int i]
@@ -30,6 +40,8 @@
         }
 
         public static implicit operator byte[](CommandDescriptorBlock cdb) => cdb.bytes;
+
+        public static explicit operator CommandDescriptorBlock(byte[] cdb) => new CommandDescriptorBlock(cdb);
 
         public override string ToString() => $"CDB 0x{Convert.ToString(bytes[0], 16)}";
     }
