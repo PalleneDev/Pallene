@@ -12,7 +12,7 @@ namespace Pallene.SDK.MMC
             BitConverter.GetBytes(startAddress)
                 .CopyTo(CDB, 2);
             CDB[1, 4] = immed;
-            CDB[1].SetBits(blankingType, 3, 0);
+            CDB[1].SetBits(3, (byte)blankingType, 0);
             return CDB;
         }
 
