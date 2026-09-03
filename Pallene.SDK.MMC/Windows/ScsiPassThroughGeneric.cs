@@ -4,7 +4,7 @@ using System.Runtime.Versioning;
 
 namespace Pallene.SDK.MMC.Windows
 {
-    internal class ScsiPassThroughGeneric
+    internal partial class ScsiPassThroughGeneric
     {
         private const byte SPT_SENSE_INFO_LENGTH = 32;
 
@@ -39,13 +39,6 @@ namespace Pallene.SDK.MMC.Windows
             public required byte[] ucDataBuf;
 
             public SPTWithBuffers() { }
-        }
-
-        public enum DataDirection
-        {
-            DataOut = 0x0,
-            DataIn = 0x1,
-            DataUnspecified = 0x2
         }
     }
 }
