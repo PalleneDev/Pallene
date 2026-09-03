@@ -1,6 +1,4 @@
-﻿using System.Reflection.Emit;
-
-namespace Pallene.SDK.MMC
+﻿namespace Pallene.Sdk.Core
 {
     public struct CommandDescriptorBlock
     {

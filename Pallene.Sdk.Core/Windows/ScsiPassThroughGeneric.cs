@@ -1,8 +1,6 @@
-﻿using Microsoft.Win32.SafeHandles;
-using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
+﻿using System.Runtime.InteropServices;
 
-namespace Pallene.SDK.MMC.Windows
+namespace Pallene.Sdk.Core.Windows
 {
     internal partial class ScsiPassThroughGeneric
     {

@@ -1,11 +1,7 @@
 ﻿using Microsoft.Win32.SafeHandles;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
-using System.Text;
 
-namespace Pallene.SDK.MMC.Windows
+namespace Pallene.Sdk.Core.Windows
 {
     internal static class DeviceIo
     {

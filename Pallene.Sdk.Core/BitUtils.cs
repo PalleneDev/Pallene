@@ -1,11 +1,4 @@
-﻿using Pallene.SDK.MMC.Windows;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-
-namespace Pallene.SDK.MMC
+﻿namespace Pallene.Sdk.Core
 {
     internal static class BitUtils
     {

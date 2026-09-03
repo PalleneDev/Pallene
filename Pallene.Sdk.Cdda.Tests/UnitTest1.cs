@@ -1,4 +1,4 @@
-﻿namespace Pallene.SDK.CDDA.Tests
+﻿namespace Pallene.Sdk.Cdda.Tests
 {
     public class UnitTest1
     {

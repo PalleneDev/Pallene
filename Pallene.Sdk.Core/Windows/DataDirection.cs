@@ -1,4 +1,4 @@
-﻿namespace Pallene.SDK.MMC.Windows
+﻿namespace Pallene.Sdk.Core.Windows
 {
     internal partial class ScsiPassThroughGeneric
     {

@@ -1,4 +1,4 @@
-﻿namespace Pallene.SDK.CDDA
+﻿namespace Pallene.Sdk.Cdda
 {
     public class Class1
     {

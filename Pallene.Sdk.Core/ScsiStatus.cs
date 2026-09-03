@@ -1,4 +1,4 @@
-﻿namespace Pallene.SDK.MMC
+﻿namespace Pallene.Sdk.Core
 {
     public enum ScsiStatus
     {

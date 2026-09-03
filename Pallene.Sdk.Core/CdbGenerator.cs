@@ -1,7 +1,4 @@
-﻿using Pallene.SDK.MMC.Windows;
-using System.Collections;
-
-namespace Pallene.SDK.MMC
+﻿namespace Pallene.Sdk.Core
 {
     public static class CdbGenerator
     {

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
-namespace Pallene.SDK.MMC
+namespace Pallene.Sdk.Core
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct Int24

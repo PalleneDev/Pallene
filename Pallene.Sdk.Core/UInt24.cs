@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Pallene.SDK.MMC
+namespace Pallene.Sdk.Core
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct UInt24

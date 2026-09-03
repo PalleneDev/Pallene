@@ -1,11 +1,11 @@
 <Solution>
-  <Folder Name="/SDK/" />
-  <Folder Name="/SDK/CDDA/">
-    <Project Path="Pallene.SDK.CDDA.Tests/Pallene.SDK.CDDA.Tests.csproj" Id="5683c431-213c-4983-a94d-0fff0f2f9ee1" />
-    <Project Path="Pallene.SDK.CDDA/Pallene.SDK.CDDA.csproj" Id="b5874e17-557f-4606-8d97-e8ab73f75919" />
+  <Folder Name="/Sdk/" />
+  <Folder Name="/Sdk/Cdda/">
+    <Project Path="Pallene.Sdk.Cdda.Tests/Pallene.Sdk.Cdda.Tests.csproj" DisplayName="Pallene.Sdk.Cdda.Tests" Id="5683c431-213c-4983-a94d-0fff0f2f9ee1" />
+    <Project Path="Pallene.Sdk.Cdda/Pallene.Sdk.Cdda.csproj" DisplayName="Pallene.Sdk.Cdda" Id="b5874e17-557f-4606-8d97-e8ab73f75919" />
   </Folder>
-  <Folder Name="/SDK/MMC/">
-    <Project Path="Pallene.SDK.MMC/Pallene.SDK.MMC.csproj" Id="1ec3e161-41bf-411c-984e-b4b0970308de" />
+  <Folder Name="/Sdk/Core/">
+    <Project Path="Pallene.Sdk.Core/Pallene.Sdk.Core.csproj" Id="1ec3e161-41bf-411c-984e-b4b0970308de" />
   </Folder>
   <Project Path="Pallene/Pallene.csproj" />
 </Solution>
