@@ -20,7 +20,7 @@ namespace Pallene.SDK.MMC
         {
             CommandDescriptorBlock CDB = new(10, 0x5B);
             CDB[1,0] = immed;
-            CDB[2].SetBits(closeFunction, 3, 0);
+            CDB[2].SetBits(0, closeFunction, 3);
             BitConverter.GetBytes(logicalTrackNo)
                 .CopyTo(CDB, 3);
             return CDB;
