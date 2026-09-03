@@ -45,5 +45,16 @@ namespace Pallene.SDK.MMC
     internal static class BitUtils
     {
         public static byte ToByte(this bool input) { return input ? (byte)0b1 : (byte)0b0; }
+
+        public static byte SetBits(this byte input, byte value, byte length, byte bitIndex)
+        {
+            int mask = 0;
+            for (int i = 0; i < length; i++)
+            {
+                mask += 0b1 << i;
+            }
+            value <<= bitIndex;
+            return input = (byte)(input & ~mask + value & mask);
+        }
     }
 }

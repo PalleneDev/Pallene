@@ -10,10 +10,10 @@ namespace Pallene.SDK.MMC
 
         public DiscDrive DiscDrive { get; set; }
 
-        public byte[] ScsiReceiveData(byte[] commandDescriptorBlock, bool keepAlive = false);
+        public byte[] ScsiReceiveData(CommandDescriptorBlock cdb, bool keepAlive = false);
 
-        public void ScsiSendData(byte[] commandDescriptorBlock, byte[] dataBuffer, bool keepAlive = false);
+        public void ScsiSendData(CommandDescriptorBlock cdb, byte[] dataBuffer, bool keepAlive = false);
 
-        public void ScsiSendCommand(byte[] commandDescriptorBlock, bool keepAlive = false);
+        public void ScsiSendCommand(CommandDescriptorBlock cdb, bool keepAlive = false);
     }
 }
