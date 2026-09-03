@@ -4,7 +4,6 @@ using System.Runtime.Versioning;
 
 namespace Pallene.SDK.MMC.Windows
 {
-    [SupportedOSPlatform("linux")]
     internal class ScsiPassThroughGeneric
     {
         private const byte SPT_SENSE_INFO_LENGTH = 32;
