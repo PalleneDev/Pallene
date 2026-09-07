@@ -4,7 +4,6 @@ namespace Pallene.Sdk.Core.Windows
 {
     internal class ScsiPassThroughGeneric
     {
-        private const byte SPT_SENSE_INFO_LENGTH = 32;
 
         [StructLayout(LayoutKind.Sequential)]
         public struct ScsiPassThrough
@@ -15,7 +14,7 @@ namespace Pallene.Sdk.Core.Windows
             public readonly byte TargetId = 0; // Assigned by driver
             public readonly byte LogicalUnitNumber = 0; // Assigned by driver
             public required byte CDBLength;
-            public readonly byte SenseInfoLength = SPT_SENSE_INFO_LENGTH;
+            public readonly byte SenseInfoLength = Constants.SPT_SENSE_INFO_LENGTH;
             public required byte DataIn;
             public required uint DataTransferLength;
             public required uint TimeOutValue;
@@ -32,8 +31,8 @@ namespace Pallene.Sdk.Core.Windows
         {
             public required ScsiPassThrough SPT;
             public readonly uint Filler = 0;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = SPT_SENSE_INFO_LENGTH)]
-            public readonly byte[] ucSenseBuf = new byte[SPT_SENSE_INFO_LENGTH]; // Returned by command
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.SPT_SENSE_INFO_LENGTH)]
+            public readonly byte[] ucSenseBuf = new byte[Constants.SPT_SENSE_INFO_LENGTH]; // Returned by command
             public required byte[] ucDataBuf;
 
             public SPTWithBuffers() { }
