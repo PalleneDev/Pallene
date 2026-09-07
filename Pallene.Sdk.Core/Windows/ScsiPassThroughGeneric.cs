@@ -2,7 +2,7 @@
 
 namespace Pallene.Sdk.Core.Windows
 {
-    internal partial class ScsiPassThroughGeneric
+    internal class ScsiPassThroughGeneric
     {
         private const byte SPT_SENSE_INFO_LENGTH = 32;
 

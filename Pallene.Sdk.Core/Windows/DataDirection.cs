@@ -1,7 +1,5 @@
 ﻿namespace Pallene.Sdk.Core.Windows
 {
-    internal partial class ScsiPassThroughGeneric
-    {
         public enum DataDirection
         {
             DataOut = 0x0,
@@ -9,4 +7,3 @@
             DataUnspecified = 0x2
         }
     }
-}
