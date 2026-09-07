@@ -20,7 +20,7 @@ namespace Pallene.Sdk.Core.Windows
             public required uint DataTransferLength;
             public required uint TimeOutValue;
             public readonly nint DataBufferOffset = Marshal.OffsetOf<SPTWithBuffers>("ucDataBuf");
-            public required uint SenseInfoOffset = (uint)Marshal.OffsetOf<SPTWithBuffers>("ucSenseBuf");
+            public readonly uint SenseInfoOffset = (uint)Marshal.OffsetOf<SPTWithBuffers>("ucSenseBuf");
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
             public required byte[] CommandDescriptorBlock;
 
