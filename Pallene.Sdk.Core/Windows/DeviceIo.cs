@@ -18,6 +18,18 @@ namespace Pallene.Sdk.Core.Windows
         );
 
         [DllImport("Kernel32.dll", SetLastError = true)]
+        public static extern bool DeviceIoControl(
+            SafeFileHandle hDevice,
+            uint ioControlCode,
+            [In] ref ScsiPassThroughDirectGeneric.SPTDWithBuffers lpInBuffer,
+            uint nInBufferSize,
+            [In, Out] ref ScsiPassThroughDirectGeneric.SPTDWithBuffers lpOutBuffer,
+            uint nOutBufferSize,
+            ref uint lpBytesReturned,
+            nint Overlapped
+        );
+
+        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern SafeFileHandle CreateFileA(
                 string FileName,
                 [MarshalAs(UnmanagedType.U4)] FileAccess DesiredAccess,
