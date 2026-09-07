@@ -37,6 +37,8 @@
             }
         }
 
+        public int Length => bytes.Length;
+
         public static implicit operator byte[](CommandDescriptorBlock cdb) => cdb.bytes;
 
         public static explicit operator CommandDescriptorBlock(byte[] cdb) => new CommandDescriptorBlock(cdb);
