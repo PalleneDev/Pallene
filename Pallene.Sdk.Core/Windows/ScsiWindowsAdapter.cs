@@ -4,6 +4,7 @@ using System.Runtime.Versioning;
 
 namespace Pallene.Sdk.Core.Windows
 {
+    [SupportedOSPlatform("windows")]
     internal sealed class ScsiWindowsAdapter : IScsiSystemAdapter
     {
         private SafeFileHandle FileHandle;

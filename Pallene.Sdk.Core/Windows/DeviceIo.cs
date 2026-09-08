@@ -1,8 +1,10 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace Pallene.Sdk.Core.Windows
 {
+    [SupportedOSPlatform("windows")]
     internal static class DeviceIo
     {
         [DllImport("Kernel32.dll", SetLastError = true)]
