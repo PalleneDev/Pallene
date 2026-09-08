@@ -10,7 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Pallene.Sdk.Core.Windows
 {
-    internal class ScsiWindowsAdapter : IScsiSystemAdapter
+    internal sealed class ScsiWindowsAdapter : IScsiSystemAdapter
     {
         private SafeFileHandle FileHandle;
 
