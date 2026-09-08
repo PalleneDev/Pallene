@@ -9,9 +9,9 @@ namespace Pallene.Sdk.Core.Windows
         public static extern bool DeviceIoControl(
             SafeFileHandle hDevice,
             uint ioControlCode,
-            [In] ref ScsiPassThroughGeneric.SPTWithBuffers lpInBuffer,
+            [In] ref SPTWithBuffers lpInBuffer,
             uint nInBufferSize,
-            [In, Out] ref ScsiPassThroughGeneric.SPTWithBuffers lpOutBuffer,
+            [In, Out] ref SPTWithBuffers lpOutBuffer,
             uint nOutBufferSize,
             ref uint lpBytesReturned,
             nint Overlapped
@@ -21,9 +21,9 @@ namespace Pallene.Sdk.Core.Windows
         public static extern bool DeviceIoControl(
             SafeFileHandle hDevice,
             uint ioControlCode,
-            [In] ref ScsiPassThroughDirectGeneric.SPTDWithBuffers lpInBuffer,
+            [In] ref SPTDWithBuffers lpInBuffer,
             uint nInBufferSize,
-            [In, Out] ref ScsiPassThroughDirectGeneric.SPTDWithBuffers lpOutBuffer,
+            [In, Out] ref SPTDWithBuffers lpOutBuffer,
             uint nOutBufferSize,
             ref uint lpBytesReturned,
             nint Overlapped

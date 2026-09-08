@@ -46,7 +46,7 @@ namespace Pallene.Sdk.Core.Windows
         }
 
 
-        private ScsiPassThroughGeneric.SPTWithBuffers GenerateSptwb(CommandDescriptorBlock cdb, DataDirection direction, uint timeout, byte[] dataBuffer)
+        private SPTWithBuffers GenerateSptwb(CommandDescriptorBlock cdb, DataDirection direction, uint timeout, byte[] dataBuffer)
         {
             return new()
             {
@@ -62,7 +62,7 @@ namespace Pallene.Sdk.Core.Windows
             };
         }
 
-        private ScsiPassThroughDirectGeneric.SPTDWithBuffers GenerateSptdwb(CommandDescriptorBlock cdb, DataDirection direction, uint timeout, nint bufferPtr, byte bufferLength)
+        private SPTDWithBuffers GenerateSptdwb(CommandDescriptorBlock cdb, DataDirection direction, uint timeout, nint bufferPtr, byte bufferLength)
         {
             return new()
             {
@@ -78,7 +78,7 @@ namespace Pallene.Sdk.Core.Windows
             };
         }
 
-        private uint SendIoControl(SafeFileHandle fileHandle, ref ScsiPassThroughDirectGeneric.SPTDWithBuffers sptdwb)
+        private uint SendIoControl(SafeFileHandle fileHandle, ref SPTDWithBuffers sptdwb)
         {
             uint bytesReturned = 0;
             bool success = DeviceIo.DeviceIoControl(
@@ -96,7 +96,7 @@ namespace Pallene.Sdk.Core.Windows
             return bytesReturned;
         }
 
-        private uint SendIoControl(SafeFileHandle fileHandle, ref ScsiPassThroughGeneric.SPTWithBuffers sptwb)
+        private uint SendIoControl(SafeFileHandle fileHandle, ref SPTWithBuffers sptwb)
         {
             uint bytesReturned = 0;
             bool success = DeviceIo.DeviceIoControl(
@@ -116,7 +116,7 @@ namespace Pallene.Sdk.Core.Windows
 
         public void SendCommand(CommandDescriptorBlock cdb, uint timeout)
         {
-            ScsiPassThroughGeneric.SPTWithBuffers sptwb = GenerateSptwb(
+            SPTWithBuffers sptwb = GenerateSptwb(
                 cdb,
                 DataDirection.DataUnspecified,
                 timeout,
@@ -132,7 +132,7 @@ namespace Pallene.Sdk.Core.Windows
             if(directMemAccess.Value)
             {
                 nint ptr = Marshal.AllocHGlobal(bufferSize);
-                ScsiPassThroughDirectGeneric.SPTDWithBuffers sptdwb = GenerateSptdwb(
+                SPTDWithBuffers sptdwb = GenerateSptdwb(
                     cdb,
                     DataDirection.DataIn,
                     timeout,
@@ -147,7 +147,7 @@ namespace Pallene.Sdk.Core.Windows
             }
             else
             {
-                ScsiPassThroughGeneric.SPTWithBuffers sptwb = GenerateSptwb(
+                SPTWithBuffers sptwb = GenerateSptwb(
                     cdb,
                     DataDirection.DataIn,
                     timeout,
@@ -166,7 +166,7 @@ namespace Pallene.Sdk.Core.Windows
             {
                 nint ptr = Marshal.AllocHGlobal(inputBuffer.Length);
                 Marshal.Copy(inputBuffer, 0, ptr, inputBuffer.Length);
-                ScsiPassThroughDirectGeneric.SPTDWithBuffers sptdwb = GenerateSptdwb(
+                SPTDWithBuffers sptdwb = GenerateSptdwb(
                     cdb,
                     DataDirection.DataOut,
                     timeout,
@@ -178,7 +178,7 @@ namespace Pallene.Sdk.Core.Windows
             }
             else
             {
-                ScsiPassThroughGeneric.SPTWithBuffers sptwb = GenerateSptwb(
+                SPTWithBuffers sptwb = GenerateSptwb(
                     cdb,
                     DataDirection.DataOut,
                     timeout,
