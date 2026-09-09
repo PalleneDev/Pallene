@@ -3,7 +3,7 @@
 namespace Pallene.Sdk.Core
 {
     [StructLayout(LayoutKind.Sequential)]
-    internal struct Int24
+    public struct Int24
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         private byte[] bytes = new byte[3];
