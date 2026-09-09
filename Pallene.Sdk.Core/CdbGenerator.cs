@@ -35,5 +35,17 @@
                 .CopyTo(CDB, 3);
             return CDB;
         }
+        
+        public static CommandDescriptorBlock START_STOP_UNIT(bool immed, byte formatLayerNumber, byte powerConditions, bool formatLayer, bool loEj, bool start)
+        {
+            CommandDescriptorBlock CDB = new(6, 0x1B);
+            CDB[1, 0] = immed;
+            CDB[3].SetBits(0, formatLayerNumber, 2);
+            CDB[4, 0] = start;
+            CDB[4, 1] = loEj;
+            CDB[4, 2] = formatLayer;
+            CDB[4].SetBits(4, powerConditions, 4);
+            return CDB;
+        }
     }
 }
