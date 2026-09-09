@@ -8,7 +8,7 @@
         {
             ArgumentOutOfRangeException.ThrowIfNegative(startIndex);
             ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(startIndex, 8);
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(startIndex + length, 8);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(startIndex + length, 8);
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(length);
             int mask = 0;
             for (int i = 0; i < length; i++)
