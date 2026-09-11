@@ -16,7 +16,7 @@
         {
             int length = buffer.Length;
             if (length != 6 && length != 10 && length != 12 && length != 16)
-                throw new ArgumentOutOfRangeException(nameof(length), "Command Descriptor Block length must only be one of the following: 6, 10, 12, 16.");
+                throw new ArgumentOutOfRangeException(nameof(buffer), "Command Descriptor Block length must only be one of the following: 6, 10, 12, 16.");
             bytes = buffer;
         }
 

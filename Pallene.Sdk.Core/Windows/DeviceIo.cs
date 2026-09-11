@@ -31,7 +31,7 @@ namespace Pallene.Sdk.Core.Windows
             nint Overlapped
         );
 
-        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, BestFitMapping = false)]
         public static extern SafeFileHandle CreateFileA(
                 string FileName,
                 [MarshalAs(UnmanagedType.U4)] FileAccess DesiredAccess,

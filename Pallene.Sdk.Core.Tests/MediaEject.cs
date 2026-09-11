@@ -10,7 +10,7 @@ namespace Pallene.Sdk.Core.Tests
             DriveFinder df = new();
             var drives = df.GetDiscDrives();
             ScsiSender sender = new(drives[0]);
-            sender.START_STOP_UNIT(false, 0, 0, false, true, false);
+            sender.StartStopUnit(false, 0, 0, false, true, false);
         }
     }
 }

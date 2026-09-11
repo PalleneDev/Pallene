@@ -6,7 +6,6 @@ using System.Text;
 namespace Pallene.Sdk.Core.Windows
 {
 
-
     [StructLayout(LayoutKind.Sequential)]
     internal struct ScsiPassThroughDirect
     {

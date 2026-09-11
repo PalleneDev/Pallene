@@ -17,7 +17,7 @@ namespace Pallene.Sdk.Core.Windows
             FileHandle = OpenFileHandle(recorder);
         }
 
-        private SafeFileHandle OpenFileHandle(DiscDrive recorder)
+        private static SafeFileHandle OpenFileHandle(DiscDrive recorder)
         {
             SafeFileHandle handle = DeviceIo.CreateFileA(
                 @$"\\.\{recorder.AccessPath}",
@@ -41,7 +41,7 @@ namespace Pallene.Sdk.Core.Windows
         }
 
 
-        private SPTWithBuffers GenerateSptwb(CommandDescriptorBlock cdb, DataDirection direction, uint timeout, byte[] dataBuffer)
+        private static SPTWithBuffers GenerateSptwb(CommandDescriptorBlock cdb, DataDirection direction, uint timeout, byte[] dataBuffer)
         {
             return new()
             {
@@ -57,7 +57,7 @@ namespace Pallene.Sdk.Core.Windows
             };
         }
 
-        private SPTDWithBuffers GenerateSptdwb(CommandDescriptorBlock cdb, DataDirection direction, uint timeout, nint bufferPtr, byte bufferLength)
+        private static SPTDWithBuffers GenerateSptdwb(CommandDescriptorBlock cdb, DataDirection direction, uint timeout, nint bufferPtr, byte bufferLength)
         {
             return new()
             {
@@ -73,7 +73,7 @@ namespace Pallene.Sdk.Core.Windows
             };
         }
 
-        private uint SendIoControl(SafeFileHandle fileHandle, ref SPTDWithBuffers sptdwb)
+        private static uint SendIoControl(SafeFileHandle fileHandle, ref SPTDWithBuffers sptdwb)
         {
             uint bytesReturned = 0;
             bool success = DeviceIo.DeviceIoControl(
@@ -91,7 +91,7 @@ namespace Pallene.Sdk.Core.Windows
             return bytesReturned;
         }
 
-        private uint SendIoControl(SafeFileHandle fileHandle, ref SPTWithBuffers sptwb)
+        private static uint SendIoControl(SafeFileHandle fileHandle, ref SPTWithBuffers sptwb)
         {
             uint bytesReturned = 0;
             bool success = DeviceIo.DeviceIoControl(
