@@ -36,5 +36,7 @@ namespace Pallene.Sdk.Core
             CDB[4].SetBits(4, powerConditions, 4);
             return CDB;
         }
+
+        public static CommandDescriptorBlock TestUnitReady() => new CommandDescriptorBlock(6, 0x00);
     }
 }

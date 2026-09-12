@@ -31,5 +31,11 @@ namespace Pallene.Sdk.Core
             CommandDescriptorBlock cdb = CdbGenerator.StartStopUnit(immed, formatLayerNumber, powerConditions, formatLayer, loEj, start);
             SystemAdapter.SendCommand(cdb, 5);
         }
+
+        public void TestUnitReady()
+        {
+            CommandDescriptorBlock cdb = CdbGenerator.TestUnitReady();
+            SystemAdapter.SendCommand(cdb, 5);
+        }
     }
 }
