@@ -118,7 +118,7 @@ namespace Pallene.Sdk.Core.Windows
                 Array.Empty<byte>()
                 );
             SendIoControl(FileHandle, ref sptwb);
-            if (sptwb.SPT.ScsiStatus != (byte)ScsiStatus.GOOD)
+            if (sptwb.SPT.ScsiStatus != (byte)ScsiStatus.Good)
                 throw new ScsiException();
         }
 
@@ -140,7 +140,7 @@ namespace Pallene.Sdk.Core.Windows
                 byte[] output = new byte[bufferSize];
                 Marshal.Copy(ptr, output, 0, bufferSize);
                 Marshal.FreeHGlobal(ptr);
-                if (sptdwb.SPTD.ScsiStatus != (byte)ScsiStatus.GOOD)
+                if (sptdwb.SPTD.ScsiStatus != (byte)ScsiStatus.Good)
                     throw new ScsiException();
                 return output;
             }
@@ -153,7 +153,7 @@ namespace Pallene.Sdk.Core.Windows
                     new byte[bufferSize]
                     );
                 SendIoControl(FileHandle, ref sptwb);
-                if (sptwb.SPT.ScsiStatus != (byte)ScsiStatus.GOOD)
+                if (sptwb.SPT.ScsiStatus != (byte)ScsiStatus.Good)
                     throw new ScsiException();
                 return sptwb.ucDataBuf;
             }
@@ -176,7 +176,7 @@ namespace Pallene.Sdk.Core.Windows
                     );
                 SendIoControl(FileHandle, ref sptdwb);
                 Marshal.FreeHGlobal(ptr);
-                if (sptdwb.SPTD.ScsiStatus != (byte)ScsiStatus.GOOD)
+                if (sptdwb.SPTD.ScsiStatus != (byte)ScsiStatus.Good)
                     throw new ScsiException();
             }
             else
@@ -188,7 +188,7 @@ namespace Pallene.Sdk.Core.Windows
                     inputBuffer
                     );
                 SendIoControl(FileHandle, ref sptwb);
-                if (sptwb.SPT.ScsiStatus != (byte)ScsiStatus.GOOD)
+                if (sptwb.SPT.ScsiStatus != (byte)ScsiStatus.Good)
                     throw new ScsiException();
             }
         }
