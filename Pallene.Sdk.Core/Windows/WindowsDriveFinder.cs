@@ -13,10 +13,10 @@ namespace Pallene.Sdk.Core.Windows
             DiscDrive[] output = new DiscDrive[devices.Count];
             int i = 0;
             foreach (var drive in devices)
-                output[i++] = new DiscDrive {
-                    FriendlyName = (string)drive.GetPropertyValue("Name"),
-                    AccessPath = (string)drive.GetPropertyValue("Drive")
-                };
+                output[i++] = new DiscDrive(
+                    (string)drive.GetPropertyValue("Name"),
+                    (string)drive.GetPropertyValue("Drive")
+                    );
             return output;
         }
     }
