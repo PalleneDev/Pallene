@@ -109,7 +109,7 @@ namespace Pallene.Sdk.Core.Windows
             return bytesReturned;
         }
 
-        public void SendCommand(CommandDescriptorBlock cdb, uint timeout)
+        public CommandResult SendCommand(CommandDescriptorBlock cdb, uint timeout)
         {
             SPTWithBuffers sptwb = GenerateSptwb(
                 cdb,
@@ -118,11 +118,13 @@ namespace Pallene.Sdk.Core.Windows
                 Array.Empty<byte>()
                 );
             SendIoControl(FileHandle, ref sptwb);
-            if (sptwb.SPT.ScsiStatus != (byte)ScsiStatus.Good)
-                throw new ScsiException();
+            return new CommandResult(
+                (ScsiStatus)sptwb.SPT.ScsiStatus,
+                new SenseData(sptwb.ucSenseBuf)
+                );
         }
 
-        public byte[] ReceiveData(CommandDescriptorBlock cdb, int bufferSize, uint timeout, bool? directMemAccess)
+        public (CommandResult result, byte[] output) ReceiveData(CommandDescriptorBlock cdb, int bufferSize, uint timeout, bool? directMemAccess)
         {
             if (directMemAccess == null)
                 directMemAccess = bufferSize >= Constants.PASS_THROUGH_DIRECT_MIN_THRESHOLD;
@@ -140,9 +142,13 @@ namespace Pallene.Sdk.Core.Windows
                 byte[] output = new byte[bufferSize];
                 Marshal.Copy(ptr, output, 0, bufferSize);
                 Marshal.FreeHGlobal(ptr);
-                if (sptdwb.SPTD.ScsiStatus != (byte)ScsiStatus.Good)
-                    throw new ScsiException();
-                return output;
+                return (
+                    new CommandResult(
+                        (ScsiStatus)sptdwb.SPTD.ScsiStatus,
+                        new SenseData(sptdwb.ucSenseBuf)
+                        ),
+                        output
+                    );
             }
             else
             {
@@ -153,13 +159,17 @@ namespace Pallene.Sdk.Core.Windows
                     new byte[bufferSize]
                     );
                 SendIoControl(FileHandle, ref sptwb);
-                if (sptwb.SPT.ScsiStatus != (byte)ScsiStatus.Good)
-                    throw new ScsiException();
-                return sptwb.ucDataBuf;
+                return (
+                    new CommandResult(
+                        (ScsiStatus)sptwb.SPT.ScsiStatus,
+                        new SenseData(sptwb.ucSenseBuf)
+                        ),
+                        sptwb.ucDataBuf
+                    );
             }
         }
 
-        public void SendData(CommandDescriptorBlock cdb, byte[] inputBuffer, uint timeout, bool? directMemAccess)
+        public CommandResult SendData(CommandDescriptorBlock cdb, byte[] inputBuffer, uint timeout, bool? directMemAccess)
         {
             if (directMemAccess == null)
                 directMemAccess = inputBuffer.Length >= Constants.PASS_THROUGH_DIRECT_MIN_THRESHOLD;
@@ -176,8 +186,11 @@ namespace Pallene.Sdk.Core.Windows
                     );
                 SendIoControl(FileHandle, ref sptdwb);
                 Marshal.FreeHGlobal(ptr);
-                if (sptdwb.SPTD.ScsiStatus != (byte)ScsiStatus.Good)
-                    throw new ScsiException();
+                return new CommandResult(
+                    (ScsiStatus)sptdwb.SPTD.ScsiStatus,
+                    new SenseData(sptdwb.ucSenseBuf)
+                    );
+
             }
             else
             {
@@ -188,8 +201,10 @@ namespace Pallene.Sdk.Core.Windows
                     inputBuffer
                     );
                 SendIoControl(FileHandle, ref sptwb);
-                if (sptwb.SPT.ScsiStatus != (byte)ScsiStatus.Good)
-                    throw new ScsiException();
+                return new CommandResult(
+                    (ScsiStatus)sptwb.SPT.ScsiStatus,
+                    new SenseData(sptwb.ucSenseBuf)
+                    );
             }
         }
     }
