@@ -1,28 +1,11 @@
 ﻿namespace Pallene.Sdk.Core
 {
-    public enum SenseKey {
-        NoSense = 0x0,
-        RecoveredError = 0x1,
-        NotReady = 0x2,
-        MediumError = 0x3,
-        HardwareError = 0x4,
-        IllegalRequest = 0x5,
-        UnitAttention = 0x6,
-        DataProtect = 0x7,
-        BlankCheck = 0x8,
-        VendorSpecific = 0x9,
-        CopyAborted = 0xA,
-        AbortedCommand = 0xB,
-        VolumeOverflow = 0xD,
-        Miscompare = 0xE
-    }
 
     public class ScsiException : Exception
     {
-        public SenseKey SenseKey { get; }
-        public int Asc { get; }
-
-        public int Ascq { get; }
+        public ScsiStatus ScsiStatus { get; }
+    
+        public SenseData? SenseData { get; }
 
         public ScsiException(): base() { }
 
@@ -30,12 +13,28 @@
 
         public ScsiException(string? message, Exception? innerException): base(message, innerException) { }
 
-        public ScsiException(SenseKey senseKey, int asc, int ascq) :
-            base($"Drive reported error: {senseKey.ToString()} -- ASC {asc} / ASCQ {ascq}")
+        public ScsiException(ScsiStatus scsiStatus): base($"Drive returned status {scsiStatus} in transaction.")
         {
-            SenseKey = senseKey;
-            Asc = asc;
-            Ascq = ascq;
+            ScsiStatus = scsiStatus;
+        }
+
+        public ScsiException(ScsiStatus scsiStatus, SenseData senseData):
+            base($"Drive returned {scsiStatus}: {senseData.SenseKey} (ASC {Convert.ToString(senseData.AdditionalSenseCode, 16)}/ASCQ {Convert.ToString(senseData.AdditionalSenseCodeQualifier, 16)}).")
+        {
+            ScsiStatus = scsiStatus;
+            SenseData = senseData;
+        }
+
+
+        public static void ThrowIfStatusNotGood(ScsiStatus scsiStatus, SenseData? senseData)
+        {
+            // For purposes of multimedia control a simple check against Good is enough I think
+            if (scsiStatus == ScsiStatus.Good) return;
+            // Only CheckCondition provides sense data alongside itself
+            if (scsiStatus == ScsiStatus.CheckCondition && senseData.HasValue)
+                throw new ScsiException(scsiStatus, senseData.Value);
+            else
+                throw new ScsiException(scsiStatus);
         }
     }
 }
