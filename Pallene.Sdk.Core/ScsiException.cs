@@ -26,14 +26,15 @@
         }
 
 
-        public static void ThrowIfStatusNotGood(CommandResult commandResult)
+        public static void ThrowIfStatusNotGood(ScsiStatus scsiStatus, SenseData? senseData)
         {
-            if (commandResult.Status == ScsiStatus.Good)
-                return;
-            else if (commandResult.SenseData.HasValue)
-                throw new ScsiException(commandResult.Status, commandResult.SenseData.Value);
+            // For purposes of multimedia control a simple check against Good is enough I think
+            if (scsiStatus == ScsiStatus.Good) return;
+            // Only CheckCondition provides sense data alongside itself
+            if (scsiStatus == ScsiStatus.CheckCondition && senseData.HasValue)
+                throw new ScsiException(scsiStatus, senseData.Value);
             else
-                throw new ScsiException(commandResult.Status);
+                throw new ScsiException(scsiStatus);
         }
     }
 }
