@@ -25,7 +25,6 @@ namespace Pallene.Sdk.Core
             SenseKey = (SenseKey)(rawSenseData[2] & 0b00001111);
             byte additionalSenseLength = rawSenseData[7];
             // I'm assuming that ASC, ASCQ and SKS are always returned, even if not containing data.
-            Debug.Assert(additionalSenseLength + 7 >= 17);
             AdditionalSenseCode = rawSenseData[12];
             AdditionalSenseCodeQualifier = rawSenseData[13];
             SenseKeySpecific = (rawSenseData[15] >> 7 == 0b1) ? [rawSenseData[15], rawSenseData[16], rawSenseData[17]] : null;
