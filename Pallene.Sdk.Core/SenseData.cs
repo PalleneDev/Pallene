@@ -19,6 +19,7 @@ namespace Pallene.Sdk.Core
             byte[] rawSenseData
             )
         {
+            ArgumentOutOfRangeException.ThrowIfLessThan(rawSenseData.Length, 8);
             Deferred = (rawSenseData[0] & 0b01111111) == 0x71;
             SenseKey = (SenseKey)(rawSenseData[2] & 0b00001111);
             byte additionalSenseLength = rawSenseData[7];
