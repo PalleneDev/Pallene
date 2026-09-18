@@ -3,10 +3,9 @@
 
     public class ScsiException : Exception
     {
-        public SenseKey SenseKey { get; }
-        public int Asc { get; }
-
-        public int Ascq { get; }
+        public ScsiStatus ScsiStatus { get; }
+    
+        public SenseData? SenseData { get; }
 
         public ScsiException(): base() { }
 
@@ -14,12 +13,27 @@
 
         public ScsiException(string? message, Exception? innerException): base(message, innerException) { }
 
-        public ScsiException(SenseKey senseKey, int asc, int ascq) :
-            base($"Drive reported error: {senseKey.ToString()} -- ASC {asc} / ASCQ {ascq}")
+        public ScsiException(ScsiStatus scsiStatus): base($"Drive returned status {scsiStatus} in transaction.")
         {
-            SenseKey = senseKey;
-            Asc = asc;
-            Ascq = ascq;
+            ScsiStatus = scsiStatus;
+        }
+
+        public ScsiException(ScsiStatus scsiStatus, SenseData senseData):
+            base($"Drive returned {scsiStatus}: {senseData.SenseKey} (ASC {Convert.ToString(senseData.AdditionalSenseCode, 16)}/ASCQ {Convert.ToString(senseData.AdditionalSenseCodeQualifier, 16)}).")
+        {
+            ScsiStatus = scsiStatus;
+            SenseData = senseData;
+        }
+
+
+        public static void ThrowIfStatusNotGood(CommandResult commandResult)
+        {
+            if (commandResult.Status == ScsiStatus.Good)
+                return;
+            else if (commandResult.SenseData.HasValue)
+                throw new ScsiException(commandResult.Status, commandResult.SenseData.Value);
+            else
+                throw new ScsiException(commandResult.Status);
         }
     }
 }
