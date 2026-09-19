@@ -1,7 +1,7 @@
 ﻿namespace Pallene.Sdk.Core
 {
 
-    public class ScsiException : Exception
+    public partial class ScsiException : Exception
     {
         public ScsiStatus ScsiStatus { get; }
     
