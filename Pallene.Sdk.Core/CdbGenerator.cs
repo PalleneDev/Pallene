@@ -49,5 +49,13 @@ namespace Pallene.Sdk.Core
                 .CopyTo(CDB, 7);
             return CDB;
         }
+
+        public static CommandDescriptorBlock PreventAllowMediumRemoval(bool persistent, bool prevent)
+        {
+            CommandDescriptorBlock CDB = new(6, 0x1E);
+            CDB[4, 0] = prevent;
+            CDB[4, 1] = persistent;
+            return CDB;
+        }
     }
 }
