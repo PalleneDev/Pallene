@@ -4,7 +4,7 @@ using System.Runtime.Versioning;
 namespace Pallene.Sdk.Core.Windows
 {
     [SupportedOSPlatform("windows")]
-    internal class WindowsDriveFinder : IDriveFinder
+    internal sealed class WindowsDriveFinder : IDriveFinder
     {
         public DiscDrive[] GetDiscDrives()
         {
