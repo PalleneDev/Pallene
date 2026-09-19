@@ -38,5 +38,16 @@ namespace Pallene.Sdk.Core
         }
 
         public static CommandDescriptorBlock TestUnitReady() => new CommandDescriptorBlock(6, 0x00);
+
+        public static CommandDescriptorBlock GetConfiguration(byte rt, ushort startingFeatureNumber, ushort allocationLength)
+        {
+            CommandDescriptorBlock CDB = new(10, 0x46);
+            CDB[1].SetBits(0, rt, 2);
+            BitConverter.GetBytes(startingFeatureNumber)
+                .CopyTo(CDB, 2);
+            BitConverter.GetBytes(allocationLength)
+                .CopyTo(CDB, 7);
+            return CDB;
+        }
     }
 }
