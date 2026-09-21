@@ -1,6 +1,6 @@
 ﻿namespace Pallene.Sdk.Core
 {
-    public enum ScsiStatus
+    public enum ScsiStatus: byte
     {
         Good = 0x00,
         CheckCondition = 0x02,

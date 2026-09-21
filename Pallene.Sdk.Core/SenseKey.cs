@@ -1,6 +1,6 @@
 ﻿namespace Pallene.Sdk.Core
 {
-    public enum SenseKey
+    public enum SenseKey: byte
     {
         NoSense = 0x0,
         RecoveredError = 0x1,
