@@ -20,28 +20,37 @@ namespace Pallene.Sdk.Core
                 throw new PlatformNotSupportedException("Bummer, seems like your current operating system is not supported.");
         }
 
-        public void Blank(bool immed, byte blankingType, int startAddress)
-        {
-            CommandDescriptorBlock cdb = CdbGenerator.Blank(immed, blankingType, startAddress);
-            SystemAdapter.SendCommand(cdb, 60);
-        }
-
-        public void StartStopUnit(bool immed, byte formatLayerNumber, byte powerConditions, bool formatLayer, bool loEj, bool start)
-        {
-            CommandDescriptorBlock cdb = CdbGenerator.StartStopUnit(immed, formatLayerNumber, powerConditions, formatLayer, loEj, start);
-            SystemAdapter.SendCommand(cdb, 5);
-        }
-
-        public void TestUnitReady()
+        public bool CheckDriveReady()
         {
             CommandDescriptorBlock cdb = CdbGenerator.TestUnitReady();
-            SystemAdapter.SendCommand(cdb, 5);
+            try
+            {
+                SystemAdapter.SendCommand(cdb, 5);
+            }
+            catch(ScsiException exception)
+            {
+                // Technically there exists a recommended set of CheckCondition ASCs, but I don't feel like checking against all of them.
+                if (!(
+                    exception.ScsiStatus == ScsiStatus.CheckCondition &&
+                    exception.SenseData.HasValue &&
+                    exception.SenseData.Value.SenseKey == SenseKey.NotReady
+                    ))
+                    throw;
+                return false;
+            }
+            return true;
         }
 
-        public void PreventAllowMediumRemoval(bool persistent, bool prevent)
+        public void EjectDisc()
         {
-            CommandDescriptorBlock cdb = CdbGenerator.PreventAllowMediumRemoval(persistent, prevent);
-            SystemAdapter.SendCommand(cdb, 5);
+            CommandDescriptorBlock cdb = CdbGenerator.StartStopUnit(false, 0, 0, false, true, false);
+            SystemAdapter.SendCommand(cdb, 10);
+        }
+
+        public void InsertDisc()
+        {
+            CommandDescriptorBlock cdb = CdbGenerator.StartStopUnit(false, 0, 0, false, true, true);
+            SystemAdapter.SendCommand(cdb, 30);
         }
     }
 }
