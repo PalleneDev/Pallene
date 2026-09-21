@@ -10,7 +10,7 @@ namespace Pallene.Sdk.Core.Tests
             DriveFinder df = new();
             var drives = df.GetDiscDrives();
             DriveController sender = new(drives[0]);
-            sender.StartStopUnit(false, 0, 0, false, true, false);
+            sender.EjectDisc();
         }
     }
 }
