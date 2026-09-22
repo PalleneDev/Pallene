@@ -124,29 +124,27 @@ namespace Pallene.Sdk.Core.Windows
                 );
         }
 
-        public byte[] ReceiveData(CommandDescriptorBlock cdb, int bufferSize, uint timeout, bool? directMemAccess)
+        public void SendCommand(CommandDescriptorBlock cdb, ref byte[] outputBuffer, uint timeout, bool? directMemAccess)
         {
             if (directMemAccess == null)
-                directMemAccess = bufferSize >= Constants.PASS_THROUGH_DIRECT_MIN_THRESHOLD;
+                directMemAccess = outputBuffer.Length >= Constants.PASS_THROUGH_DIRECT_MIN_THRESHOLD;
             if(directMemAccess.Value)
             {
-                nint ptr = Marshal.AllocHGlobal(bufferSize);
+                nint ptr = Marshal.AllocHGlobal(outputBuffer.Length);
                 SPTDWithBuffers sptdwb = GenerateSptdwb(
                     cdb,
                     DataDirection.DataIn,
                     timeout,
                     ptr,
-                    (byte)bufferSize
+                    (byte)outputBuffer.Length
                     );
                 SendIoControl(FileHandle, ref sptdwb);
-                byte[] output = new byte[bufferSize];
-                Marshal.Copy(ptr, output, 0, bufferSize);
+                Marshal.Copy(ptr, outputBuffer, 0, outputBuffer.Length);
                 Marshal.FreeHGlobal(ptr);
                 ScsiException.ThrowIfStatusNotGood(
                     (ScsiStatus)sptdwb.SPTD.ScsiStatus,
                     new SenseData(sptdwb.ucSenseBuf)
                     );
-                return output;
             }
             else
             {
@@ -154,18 +152,17 @@ namespace Pallene.Sdk.Core.Windows
                     cdb,
                     DataDirection.DataIn,
                     timeout,
-                    new byte[bufferSize]
+                    outputBuffer
                     );
                 SendIoControl(FileHandle, ref sptwb);
                 ScsiException.ThrowIfStatusNotGood(
                     (ScsiStatus)sptwb.SPT.ScsiStatus,
                     new SenseData(sptwb.ucSenseBuf)
                     );
-                return sptwb.ucDataBuf;
             }
         }
 
-        public void SendData(CommandDescriptorBlock cdb, byte[] inputBuffer, uint timeout, bool? directMemAccess)
+        public void SendCommand(CommandDescriptorBlock cdb, byte[] inputBuffer, uint timeout, bool? directMemAccess)
         {
             if (directMemAccess == null)
                 directMemAccess = inputBuffer.Length >= Constants.PASS_THROUGH_DIRECT_MIN_THRESHOLD;

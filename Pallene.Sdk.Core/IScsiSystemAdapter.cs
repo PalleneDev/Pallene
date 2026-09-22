@@ -27,12 +27,12 @@
         /// </summary>
         /// <param name="cdb">The command descriptor block.</param>
         /// <param name="inputBuffer">The data to be sent to the drive.</param>
-        public void SendData(CommandDescriptorBlock cdb, byte[] inputBuffer, uint timeout, bool? directMemAccess);
+        public void SendCommand(CommandDescriptorBlock cdb, byte[] inputBuffer, uint timeout, bool? directMemAccess);
 
         /// <summary>
         /// Execute a SCSI command that sends data back to the host.
         /// </summary>
         /// <param name="cdb">The command descriptor block.</param>
-        public byte[] ReceiveData(CommandDescriptorBlock cdb, int bufferSize, uint timeout, bool? directMemAccess);
+        public void SendCommand(CommandDescriptorBlock cdb, ref byte[] outputBuffer, uint timeout, bool? directMemAccess);
     }
 }
