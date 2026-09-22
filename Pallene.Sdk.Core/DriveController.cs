@@ -64,5 +64,47 @@ namespace Pallene.Sdk.Core
             CommandDescriptorBlock cdb = CdbGenerator.PreventAllowMediumRemoval(false, false);
             SystemAdapter.SendCommand(cdb, 10);
         }
+
+        private async Task PollForMediaEventNotifications(int pollingInterval, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            byte[] outputBuffer = new byte[8];
+            CommandDescriptorBlock cdb = CdbGenerator.GetEventStatusNotification(true, CdbGenerator.NotificationClassRequest.Media, (ushort)outputBuffer.Length);
+            while(true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                SystemAdapter.SendCommand(cdb, ref outputBuffer, 1, false);
+                MediaNotificationData notificationData = new(outputBuffer);
+                if (notificationData.EventCode == EventCode.EjectRequest || notificationData.EventCode == EventCode.NewMedia)
+                    Console.WriteLine("Hurrah");
+                await Task.Delay(pollingInterval, cancellationToken);
+            }
+        }
+
+        private enum EventCode : byte
+        {
+            NoChange,
+            EjectRequest,
+            NewMedia,
+            MediaRemoval,
+            MediaChanged,
+            BGFormatCompleted,
+            BGFormatRestarted
+        }
+
+        private struct MediaNotificationData
+        {
+            public EventCode EventCode { get; }
+            public bool MediaPresent { get; }
+            public bool TrayOpen { get; }
+
+            internal MediaNotificationData(byte[] notificationBuffer)
+            {
+                ArgumentOutOfRangeException.ThrowIfLessThan(notificationBuffer.Length, 8);
+                EventCode = (EventCode)(notificationBuffer[4] & 0b0000_1111);
+                MediaPresent = (notificationBuffer[5] & 0b0000_0010 >> 1) == 0b1;
+                TrayOpen = (notificationBuffer[5] & 0b0000_0001) == 0b1;
+            }
+        }
     }
 }
