@@ -57,5 +57,27 @@ namespace Pallene.Sdk.Core
             CDB[4, 1] = persistent;
             return CDB;
         }
+
+
+        [Flags]
+        public enum NotificationClassRequest: byte
+        {
+            OperationalChange = 0b0000_0010,
+            PowerManagement = 0b0000_0100,
+            ExternalRequest = 0b0000_1000,
+            Media = 0b0001_0000,
+            MultiHost = 0b0010_0000,
+            DeviceBusy = 0b0100_0000
+        }
+
+        public static CommandDescriptorBlock GetEventStatusNotification(bool polled, NotificationClassRequest notificationClassRequest, ushort allocationLength)
+        {
+            CommandDescriptorBlock CDB = new(10, 0x4A);
+            CDB[1, 0] = polled;
+            CDB[4] = (byte)notificationClassRequest;
+            BitConverter.GetBytes(allocationLength)
+                .CopyTo(CDB, 7);
+            return CDB;
+        }
     }
 }
