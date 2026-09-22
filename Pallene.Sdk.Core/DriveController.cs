@@ -52,5 +52,17 @@ namespace Pallene.Sdk.Core
             CommandDescriptorBlock cdb = CdbGenerator.StartStopUnit(false, 0, 0, false, true, true);
             SystemAdapter.SendCommand(cdb, 30);
         }
+
+        public void PreventDiscRemoval()
+        {
+            CommandDescriptorBlock cdb = CdbGenerator.PreventAllowMediumRemoval(false, true);
+            SystemAdapter.SendCommand(cdb, 10);
+        }
+
+        public void AllowDiscRemoval()
+        {
+            CommandDescriptorBlock cdb = CdbGenerator.PreventAllowMediumRemoval(false, false);
+            SystemAdapter.SendCommand(cdb, 10);
+        }
     }
 }
