@@ -9,7 +9,7 @@ namespace Pallene.Sdk.Core.Tests
         {
             DriveFinder df = new();
             var drives = df.GetDiscDrives();
-            DriveController sender = new(drives[0]);
+            CommonDriveController sender = new(drives[0]);
             sender.EjectDisc();
         }
     }

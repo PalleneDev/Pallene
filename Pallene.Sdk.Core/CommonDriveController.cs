@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Pallene.Sdk.Core
 {
-    public class DriveController
+    public class CommonDriveController
     {
         [SuppressMessage("Usage", "CA1859", Justification = "Future-proofing against adding compatibility with new systems.")]
         private readonly IScsiSystemAdapter SystemAdapter;
 
-        public DriveController(DiscDrive discDrive)
+        public CommonDriveController(DiscDrive discDrive)
         {
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 SystemAdapter = new ScsiWindowsAdapter(discDrive);
