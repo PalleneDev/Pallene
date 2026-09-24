@@ -25,15 +25,15 @@ namespace Pallene.Sdk.Core
             return CDB;
         }
         
-        public static CommandDescriptorBlock StartStopUnit(bool immed, byte formatLayerNumber, byte powerConditions, bool formatLayer, bool loEj, bool start)
+        public static CommandDescriptorBlock StartStopUnit(CommandInputTypes.StartStopUnitArgs args)
         {
             CommandDescriptorBlock CDB = new(6, 0x1B);
-            CDB[1, 0] = immed;
-            CDB[3].SetBits(0, formatLayerNumber, 2);
-            CDB[4, 0] = start;
-            CDB[4, 1] = loEj;
-            CDB[4, 2] = formatLayer;
-            CDB[4].SetBits(4, powerConditions, 4);
+            CDB[1, 0] = args.Immed;
+            CDB[3].SetBits(0, args.FormatLayerNumber, 2);
+            CDB[4, 0] = args.Start;
+            CDB[4, 1] = args.LoEj;
+            CDB[4, 2] = args.FL;
+            CDB[4].SetBits(4, args.PowerConditions, 4);
             return CDB;
         }
 
@@ -50,11 +50,11 @@ namespace Pallene.Sdk.Core
             return CDB;
         }
 
-        public static CommandDescriptorBlock PreventAllowMediumRemoval(bool persistent, bool prevent)
+        public static CommandDescriptorBlock PreventAllowMediumRemoval(CommandInputTypes.PreventAllowMediumRemovalArgs args)
         {
             CommandDescriptorBlock CDB = new(6, 0x1E);
-            CDB[4, 0] = prevent;
-            CDB[4, 1] = persistent;
+            CDB[4, 0] = args.Prevent;
+            CDB[4, 1] = args.Persistent;
             return CDB;
         }
 
