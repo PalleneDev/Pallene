@@ -7,25 +7,15 @@ using System.Text;
 
 namespace Pallene.Sdk.Core
 {
-    public class CommonDriveController
+    public abstract class CommonDriveController(DiscDrive discDrive)
     {
-        [SuppressMessage("Usage", "CA1859", Justification = "Future-proofing against adding compatibility with new systems.")]
-        private readonly IScsiSystemAdapter SystemAdapter;
-
-        public CommonDriveController(DiscDrive discDrive)
-        {
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                SystemAdapter = new ScsiWindowsAdapter(discDrive);
-            else
-                throw new PlatformNotSupportedException("Bummer, seems like your current operating system is not supported.");
-        }
+        protected DriveCommandSender CommandSender { get; } = new DriveCommandSender(discDrive);
 
         public bool CheckDriveReady()
         {
-            CommandDescriptorBlock cdb = CdbGenerator.TestUnitReady();
             try
             {
-                SystemAdapter.SendCommand(cdb, 5);
+                CommandSender.TestUnitReady(5);
             }
             catch(ScsiException exception)
             {
@@ -41,28 +31,40 @@ namespace Pallene.Sdk.Core
             return true;
         }
 
-        public void EjectDisc()
-        {
-            CommandDescriptorBlock cdb = CdbGenerator.StartStopUnit(false, 0, 0, false, true, false);
-            SystemAdapter.SendCommand(cdb, 10);
-        }
+        public void EjectDisc() =>
+            CommandSender.StartStopUnit(new CommandInputTypes.StartStopUnitArgs()
+            {
+                Immed = false,
+                FormatLayerNumber = 0,
+                PowerConditions = 0,
+                FL = false,
+                LoEj = true,
+                Start = false
+            }, 10);
 
-        public void InsertDisc()
-        {
-            CommandDescriptorBlock cdb = CdbGenerator.StartStopUnit(false, 0, 0, false, true, true);
-            SystemAdapter.SendCommand(cdb, 30);
-        }
+        public void InsertDisc() =>
+            CommandSender.StartStopUnit(new CommandInputTypes.StartStopUnitArgs()
+            {
+                Immed = false,
+                FormatLayerNumber = 0,
+                PowerConditions = 0,
+                FL = false,
+                LoEj = true,
+                Start = true
+            }, 30);
 
-        public void PreventDiscRemoval()
-        {
-            CommandDescriptorBlock cdb = CdbGenerator.PreventAllowMediumRemoval(false, true);
-            SystemAdapter.SendCommand(cdb, 10);
-        }
+        public void PreventDiscRemoval() =>
+            CommandSender.PreventAllowMediumRemoval(new CommandInputTypes.PreventAllowMediumRemovalArgs()
+            {
+                Persistent = false,
+                Prevent = true
+            }, 10);
 
-        public void AllowDiscRemoval()
-        {
-            CommandDescriptorBlock cdb = CdbGenerator.PreventAllowMediumRemoval(false, false);
-            SystemAdapter.SendCommand(cdb, 10);
-        }
+        public void AllowDiscRemoval() =>
+            CommandSender.PreventAllowMediumRemoval(new CommandInputTypes.PreventAllowMediumRemovalArgs()
+            {
+                Persistent = false,
+                Prevent = true
+            }, 10);
     }
 }
