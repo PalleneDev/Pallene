@@ -9,7 +9,7 @@
     /// The base class for abstracting system-specific driver code.
     /// </summary>
     /// <param name="recorder">The disc drive to communicate with.</param>
-    internal interface IScsiSystemAdapter
+    public interface IScsiSystemAdapter
     {
         /// <summary>
         /// The disc drive that the class will communicate with.

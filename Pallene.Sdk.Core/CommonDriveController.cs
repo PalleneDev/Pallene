@@ -7,10 +7,10 @@ using System.Text;
 
 namespace Pallene.Sdk.Core
 {
-    public class CommonDriveController
+    public abstract class CommonDriveController
     {
         [SuppressMessage("Usage", "CA1859", Justification = "Future-proofing against adding compatibility with new systems.")]
-        private readonly IScsiSystemAdapter SystemAdapter;
+        protected IScsiSystemAdapter SystemAdapter { get; }
 
         public CommonDriveController(DiscDrive discDrive)
         {
