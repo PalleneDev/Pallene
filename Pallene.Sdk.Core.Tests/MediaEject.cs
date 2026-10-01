@@ -2,6 +2,8 @@
 
 namespace Pallene.Sdk.Core.Tests
 {
+    internal class OpenDriveController(DiscDrive dd) : CommonDriveController(dd) { }
+
     public class MediaEject
     {
         [Fact]
@@ -9,7 +11,7 @@ namespace Pallene.Sdk.Core.Tests
         {
             DriveFinder df = new();
             var drives = df.GetDiscDrives();
-            CommonDriveController sender = new(drives[0]);
+            OpenDriveController sender = new(drives[0]);
             sender.EjectDisc();
         }
     }
