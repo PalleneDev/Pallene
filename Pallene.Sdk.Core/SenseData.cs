@@ -27,7 +27,7 @@ namespace Pallene.Sdk.Core
             // I'm assuming that ASC, ASCQ and SKS are always returned, even if not containing data.
             AdditionalSenseCode = rawSenseData[12];
             AdditionalSenseCodeQualifier = rawSenseData[13];
-            SenseKeySpecific = (rawSenseData[15] >> 7 == 0b1) ? [rawSenseData[15], rawSenseData[16], rawSenseData[17]] : null;
+            SenseKeySpecific = (rawSenseData[15] >> 7 == 0b1) ? rawSenseData[15..17] : null;
         }
     }
 }
