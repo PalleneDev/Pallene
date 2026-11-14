@@ -1,7 +1,7 @@
 ﻿namespace Pallene.Sdk.Core
 {
 
-    public class ScsiException : Exception
+    public partial class ScsiException : Exception
     {
         public ScsiStatus ScsiStatus { get; }
     
@@ -19,7 +19,7 @@
         }
 
         public ScsiException(ScsiStatus scsiStatus, SenseData senseData):
-            base($"Drive returned {scsiStatus}: {senseData.SenseKey} (ASC {Convert.ToString(senseData.AdditionalSenseCode, 16)}/ASCQ {Convert.ToString(senseData.AdditionalSenseCodeQualifier, 16)}).")
+            base($"Drive returned {scsiStatus} - {senseData.SenseKey}: {GetAdditionalSenseErrorDescription(senseData.AdditionalSenseCode, senseData.AdditionalSenseCodeQualifier)} (ASC {Convert.ToString(senseData.AdditionalSenseCode, 16)}/ASCQ {Convert.ToString(senseData.AdditionalSenseCodeQualifier, 16)}).")
         {
             ScsiStatus = scsiStatus;
             SenseData = senseData;
