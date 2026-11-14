@@ -79,5 +79,13 @@ namespace Pallene.Sdk.Core
                 .CopyTo(CDB, 7);
             return CDB;
         }
+
+
+        public static CommandDescriptorBlock SendCueSheet(UInt24 cueSheetSize)
+        {
+            CommandDescriptorBlock cdb = new(10, 0x5D);
+            ((byte[])cueSheetSize).CopyTo(cdb, 6);
+            return cdb;
+        }
     }
 }
