@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Pallene.Sdk.Core
 {
-    public struct SenseData
+    public record class SenseData
     {
         public bool Deferred { get; }
         public SenseKey SenseKey { get; }

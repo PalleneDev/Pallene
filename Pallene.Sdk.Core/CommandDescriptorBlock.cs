@@ -1,6 +1,6 @@
 ﻿namespace Pallene.Sdk.Core
 {
-    public struct CommandDescriptorBlock
+    public sealed record class CommandDescriptorBlock
     {
         private byte[] bytes;
 

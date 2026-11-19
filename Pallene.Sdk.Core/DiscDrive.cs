@@ -1,6 +1,6 @@
 ﻿namespace Pallene.Sdk.Core
 {
-    public readonly struct DiscDrive
+    public sealed record class DiscDrive
     {
         /// <summary>
         /// The string that can be displayed to the user when prompted with selecting a disc drive.<br/>
