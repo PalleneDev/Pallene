@@ -8,7 +8,7 @@ namespace Pallene.Sdk.Core
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         private byte[] bytes = new byte[3];
 
-        public Int24() { }
+        public Int24(): this(0) { }
 
         public Int24(int input) { 
             bytes = BitConverter.GetBytes(input).Skip(1).ToArray();
