@@ -37,7 +37,7 @@ namespace Pallene.Sdk.Cdda
                 ];
         }
 
-        public static CueSheetEntry[] GenerateIsrcEntry(ControlField controlField, byte trackNumber, string recordingCode)
+        public static CueSheetEntry[] GenerateIsrcEntry(ControlField controlField, byte trackNumber, Isrc recordingCode)
         {
             ArgumentOutOfRangeException.ThrowIfNotEqual(recordingCode.Length, 12); // The length of an ISRC
 
