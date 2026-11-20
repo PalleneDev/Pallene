@@ -27,7 +27,8 @@ namespace Pallene.Sdk.Cdda
 
         public static CueSheetEntry[] GenerateMcnEntry(string catalogNumber)
         {
-            ArgumentOutOfRangeException.ThrowIfNotEqual(catalogNumber.Length, 13); // The length of a UPC/EAN code.
+            CddaValidators.ThrowIfNotValidMcn(catalogNumber);
+
             catalogNumber += '\0'; // Normalize to 14 bytes -- 7 per entry
             byte[] catalogNumberBuffer = Encoding.ASCII.GetBytes(catalogNumber);
 
@@ -37,11 +38,11 @@ namespace Pallene.Sdk.Cdda
             ];
         }
 
-        public static CueSheetEntry[] GenerateIsrcEntry(ControlField controlField, byte trackNumber, Isrc recordingCode)
+        public static CueSheetEntry[] GenerateIsrcEntry(ControlField controlField, byte trackNumber, string recordingCode)
         {
             CddaValidators.ThrowIfNotValidTrackNumber(trackNumber);
 
-            byte[] recordingCodeBuffer = Encoding.ASCII.GetBytes(recordingCode);
+            byte[] recordingCodeBuffer = Encoding.ASCII.GetBytes(recordingCode); 
 
             return [
                 new(controlField, AddressField.IsrcCode, [trackNumber, ..recordingCodeBuffer[0..5]]),
