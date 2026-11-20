@@ -1,7 +1,8 @@
 ﻿namespace Pallene.Sdk.Cdda
 {
-    public class Class1
+    public sealed class CdSaoCreator
     {
+
 
     }
 }
