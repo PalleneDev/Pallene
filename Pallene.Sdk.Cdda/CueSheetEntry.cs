@@ -33,33 +33,35 @@ namespace Pallene.Sdk.Cdda
 
             return [
                 new(ControlField.None, AddressField.CatalogCode, catalogNumberBuffer[0..6]),
-            new(ControlField.None, AddressField.CatalogCode, catalogNumberBuffer[7..13])
-                ];
+                new(ControlField.None, AddressField.CatalogCode, catalogNumberBuffer[7..13])
+            ];
         }
 
         public static CueSheetEntry[] GenerateIsrcEntry(ControlField controlField, byte trackNumber, Isrc recordingCode)
         {
-            ArgumentOutOfRangeException.ThrowIfNotEqual(recordingCode.Length, 12); // The length of an ISRC
+            CddaValidators.ThrowIfNotValidTrackNumber(trackNumber);
 
             byte[] recordingCodeBuffer = Encoding.ASCII.GetBytes(recordingCode);
 
             return [
-                    new(controlField, AddressField.IsrcCode, [trackNumber, ..recordingCodeBuffer[0..5]]),
+                new(controlField, AddressField.IsrcCode, [trackNumber, ..recordingCodeBuffer[0..5]]),
                 new(controlField, AddressField.IsrcCode, [trackNumber, ..recordingCodeBuffer[6..11]])
-                ];
+            ];
         }
 
         public static CueSheetEntry GenerateTrackEntry(
             ControlField controlField, byte trackNumber, byte index, MainDataForm mainDataForm,
             SubchannelDataForm subchannelDataForm, SerialCopyManagement serialCopyManagement, CDTimecode timecode
             )
-            =>
-            new CueSheetEntry(
+        {
+            CddaValidators.ThrowIfNotValidTrackNumber(trackNumber);
+            CddaValidators.ThrowIfNotValidIndexNumber(index);
+            return new CueSheetEntry(
                 controlField,
                 AddressField.TrackInfo,
                 [trackNumber, index, (byte)((byte)subchannelDataForm + (byte)mainDataForm), (byte)serialCopyManagement, .. (byte[])timecode]
-                );
-
+            );
+        }
 
         public static implicit operator byte[](CueSheetEntry input) => [input.controlAddressField, .. input.dataBytes];
 
