@@ -48,6 +48,14 @@ namespace Pallene.Sdk.Cdda
 
         public long GetBytes() => GetFrames() * BytesPerFrame;
 
+        public CDTimecode(long byteCount) 
+            : this( 
+                  (byte)(byteCount / BytesPerFrame / FramesPerSecond / SecondsInMinute), 
+                  (byte)((byteCount / BytesPerFrame / FramesPerSecond) % SecondsInMinute),
+                  (byte)((byteCount / BytesPerFrame) % FramesPerSecond)
+                  ) 
+        { }
+
         public CDTimecode(): this(0, 0, 0) { }
 
         public CDTimecode(byte minutes, byte seconds, byte frames)
