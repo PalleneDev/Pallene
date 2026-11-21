@@ -10,7 +10,7 @@ namespace Pallene.Sdk.Cdda
 {
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct CueSheetEntry
+    internal sealed record class CueSheetEntry
     {
         private byte controlAddressField;
 
