@@ -6,11 +6,15 @@ namespace Pallene.Sdk.Cdda
 {
     internal static class CddaValidators
     {
-        public static void ThrowIfNotValidIndexNumber(byte value) => ArgumentOutOfRangeException.ThrowIfGreaterThan(value, 99);
-
-        public static void ThrowIfNotValidTrackNumber(byte value)
+        public static void ThrowIfNotValidIndexNumber(int value)
         {
-            ArgumentOutOfRangeException.ThrowIfZero(value);
+            ArgumentOutOfRangeException.ThrowIfNegative(value);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, 99);
+        }
+
+        public static void ThrowIfNotValidTrackNumber(int value)
+        {
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value);
             ArgumentOutOfRangeException.ThrowIfGreaterThan(value, 99);
         }
 
