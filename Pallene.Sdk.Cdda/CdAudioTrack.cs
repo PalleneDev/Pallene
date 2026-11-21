@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Pallene.Sdk.Cdda
+{
+    internal sealed class CdAudioTrack
+    {
+        public string? Isrc
+        {
+            get;
+            set
+            {
+                if(value != null) CddaValidators.ThrowIfNotValidIsrc(value);
+                field = value;
+            }
+        }
+
+        public CDTimecode Length
+        {
+            get => new CDTimecode(audioIndexes.Sum(s => s.Length));
+        }
+
+        private List<Stream> audioIndexes = new(2);
+
+        public Stream this[byte index] 
+        {
+            get => audioIndexes[index];
+        }
+
+        public CdAudioTrack(Stream audioStream, string? isrc = null)
+        {
+            audioIndexes[0] = Stream.Null; // Empty pregap
+            audioIndexes[1] = audioStream;
+            Isrc = isrc;
+        }
+
+        public void SetPregap(Stream stream) => audioIndexes[0] = stream;
+
+        public void RemovePregap(Stream stream) => audioIndexes[0] = Stream.Null;
+
+
+        public void AddSpecialIndex(Stream stream)
+        {
+            CddaValidators.ThrowIfNotValidIndexNumber(audioIndexes.Count);
+            audioIndexes.Add(stream);
+        }
+
+        public void InsertSpecialIndex(byte index, Stream stream)
+        {
+            CddaValidators.ThrowIfNotValidIndexNumber(index);
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(index, 1);
+            CddaValidators.ThrowIfNotValidIndexNumber(audioIndexes.Count);
+            audioIndexes.Insert(index, stream);
+        }
+
+        /// <summary>
+        /// Removes the special index at the position specified.
+        /// </summary>
+        /// <param name="index">The index to remove</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public void RemoveSpecialIndex(byte index)
+        {
+            CddaValidators.ThrowIfNotValidIndexNumber(index);
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(index, 1);
+            audioIndexes.RemoveAt(index);
+        } 
+
+    }
+}
