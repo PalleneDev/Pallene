@@ -1,6 +1,6 @@
 ﻿namespace Pallene.Sdk.Cdda
 {
-    public sealed class CdSaoCreator
+    public sealed class CddaDriveController
     {
 
 
