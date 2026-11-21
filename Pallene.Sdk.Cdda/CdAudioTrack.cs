@@ -66,5 +66,35 @@ namespace Pallene.Sdk.Cdda
             audioIndexes.RemoveAt(index);
         } 
 
+        internal CDTimecode[] GetOffsets()
+        {
+            CDTimecode[] res = new CDTimecode[audioIndexes.Count];
+            res[0] = new();
+            for(int i = 1; i < res.Length; i++) 
+                res[i] = res[i - 1] + new CDTimecode(audioIndexes[i].Length);
+            return res;
+        }
+
+        internal CueSheetEntry[] GetCueSheetEntries(
+            CDTimecode baseOffset, byte trackNumber, ControlField controlField = ControlField.None,
+            SubchannelDataForm subchannelDataForm = SubchannelDataForm.NoData,
+            SerialCopyManagement copyManagement = SerialCopyManagement.None
+            )
+        {
+            CueSheetEntry[] isrcEntries = Isrc != null ? CueSheetEntry.GenerateIsrcEntry(controlField, trackNumber, Isrc) : Array.Empty<CueSheetEntry>();
+            CueSheetEntry[] indexEntries = new CueSheetEntry[audioIndexes.Count];
+            CDTimecode[] offsets = GetOffsets();
+            for(byte i = 0; i < indexEntries.Length; i++)
+            {
+                indexEntries[i] = CueSheetEntry.GenerateTrackEntry(
+                    controlField, trackNumber, i,
+                    audioIndexes[i].Length == 0 ? MainDataForm.AudioNoData : MainDataForm.AudioData,
+                    subchannelDataForm,
+                    copyManagement,
+                    baseOffset + offsets[i]
+                    );
+            }
+            return [.. isrcEntries, .. indexEntries];
+        }
     }
 }
