@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Pallene.Sdk.Cdda
 {
-    internal sealed class CdAudioTrack
+    public sealed class CDAudioTrack
     {
         public string? Isrc
         {
@@ -28,7 +28,7 @@ namespace Pallene.Sdk.Cdda
             get => audioIndexes[index];
         }
 
-        public CdAudioTrack(Stream audioStream, string? isrc = null)
+        public CDAudioTrack(Stream audioStream, string? isrc = null)
         {
             audioIndexes[0] = Stream.Null; // Empty pregap
             audioIndexes[1] = audioStream;
