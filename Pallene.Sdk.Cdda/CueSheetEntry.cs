@@ -64,6 +64,26 @@ namespace Pallene.Sdk.Cdda
             );
         }
 
+        public static CueSheetEntry GenerateLeadInEntry()
+        {
+            return new(
+                ControlField.None, 
+                AddressField.TrackInfo, 
+                [0, 0, (byte)MainDataForm.AudioNoData, (byte)SerialCopyManagement.None, ..(byte[])CDTimecode.Empty]
+            );
+        }
+
+        public static CueSheetEntry GenerateLeadOutEntry(CDTimecode leadOutStartPoint)
+        {
+            const byte LeadOutTrackNumber = 0xAA;
+            const byte LeadOutIndex = 1;
+            return new(
+                ControlField.None,
+                AddressField.TrackInfo,
+                [LeadOutTrackNumber, LeadOutIndex, (byte)MainDataForm.AudioData, (byte)SerialCopyManagement.None, .. (byte[])leadOutStartPoint]
+            );
+        }
+
         public static implicit operator byte[](CueSheetEntry input) => [input.controlAddressField, .. input.dataBytes];
 
         public static byte[] Flatten(IEnumerable<CueSheetEntry> entries) => entries.SelectMany(entry => (byte[])entry).ToArray();
