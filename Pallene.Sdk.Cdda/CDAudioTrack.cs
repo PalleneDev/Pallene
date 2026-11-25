@@ -18,40 +18,40 @@ namespace Pallene.Sdk.Cdda
 
         public CDTimecode Length
         {
-            get => new CDTimecode(audioIndexes.Sum(s => s.Length));
+            get => audioIndexes.Aggregate<CDStreamWrapper, CDTimecode>(new(), (acc, next) => acc += next.Length);
         }
 
-        private List<Stream> audioIndexes = new(2);
+        private List<CDStreamWrapper> audioIndexes = new(2);
 
-        public Stream this[byte index] 
+        public CDStreamWrapper this[int index] 
         {
             get => audioIndexes[index];
         }
 
         public CDAudioTrack(Stream audioStream, string? isrc = null)
         {
-            audioIndexes[0] = Stream.Null; // Empty pregap
-            audioIndexes[1] = audioStream;
+            audioIndexes[0] = CDStreamWrapper.Empty; // Empty pregap
+            audioIndexes[1] = new CDStreamWrapper(audioStream);
             Isrc = isrc;
         }
 
-        public void SetPregap(Stream stream) => audioIndexes[0] = stream;
+        public void SetPregap(Stream stream) => audioIndexes[0] = new CDStreamWrapper(stream);
 
-        public void RemovePregap(Stream stream) => audioIndexes[0] = Stream.Null;
+        public void RemovePregap(Stream stream) => audioIndexes[0] = CDStreamWrapper.Empty;
 
 
         public void AddSpecialIndex(Stream stream)
         {
             CddaValidators.ThrowIfNotValidIndexNumber(audioIndexes.Count);
-            audioIndexes.Add(stream);
+            audioIndexes.Add(new CDStreamWrapper(stream));
         }
 
-        public void InsertSpecialIndex(byte index, Stream stream)
+        public void InsertSpecialIndex(int index, Stream stream)
         {
             CddaValidators.ThrowIfNotValidIndexNumber(index);
             ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(index, 1);
             CddaValidators.ThrowIfNotValidIndexNumber(audioIndexes.Count);
-            audioIndexes.Insert(index, stream);
+            audioIndexes.Insert(index, new CDStreamWrapper(stream));
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Pallene.Sdk.Cdda
         /// </summary>
         /// <param name="index">The index to remove</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public void RemoveSpecialIndex(byte index)
+        public void RemoveSpecialIndex(int index)
         {
             CddaValidators.ThrowIfNotValidIndexNumber(index);
             ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(index, 1);
@@ -71,7 +71,7 @@ namespace Pallene.Sdk.Cdda
             CDTimecode[] res = new CDTimecode[audioIndexes.Count];
             res[0] = new();
             for(int i = 1; i < res.Length; i++) 
-                res[i] = res[i - 1] + new CDTimecode(audioIndexes[i].Length);
+                res[i] = res[i - 1] + audioIndexes[i].Length;
             return res;
         }
 
@@ -88,7 +88,7 @@ namespace Pallene.Sdk.Cdda
             {
                 indexEntries[i] = CueSheetEntry.GenerateTrackEntry(
                     controlField, trackNumber, i,
-                    audioIndexes[i].Length == 0 ? MainDataForm.AudioNoData : MainDataForm.AudioData,
+                    audioIndexes[i].HasContent ? MainDataForm.AudioData : MainDataForm.AudioNoData,
                     subchannelDataForm,
                     copyManagement,
                     baseOffset + offsets[i]
