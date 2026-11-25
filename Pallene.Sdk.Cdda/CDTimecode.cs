@@ -78,6 +78,15 @@ namespace Pallene.Sdk.Cdda
             return res;
         }
 
+        // I can't be bothered to write actual logic here
+        // Go go gadget GetBytes()
+        // Maybe I should do the same in operator+
+        public static CDTimecode operator -(CDTimecode left, CDTimecode right)
+        {
+            if (right > left) return new();
+            return new(left.GetBytes() - right.GetBytes());
+        }
+
         public static bool operator >(CDTimecode left, CDTimecode right)
         {
             if (left.Minutes < right.Minutes) return false;
