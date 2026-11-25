@@ -86,6 +86,6 @@ namespace Pallene.Sdk.Cdda
 
         public static implicit operator byte[](CueSheetEntry input) => [input.controlAddressField, .. input.dataBytes];
 
-        public static byte[] Flatten(IEnumerable<CueSheetEntry> entries) => entries.SelectMany(entry => (byte[])entry).ToArray();
+        public static byte[] ToByteArray(IEnumerable<CueSheetEntry> entries) => entries.SelectMany(entry => (byte[])entry).ToArray();
     }
 }
