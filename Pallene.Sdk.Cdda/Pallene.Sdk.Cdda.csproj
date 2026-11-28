@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Pallene.Sdk.Core\Pallene.Sdk.Core.csproj" />
+  </ItemGroup>
+
 </Project>
